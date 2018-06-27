@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/vue-router/dist/vue-router.js"></script>
+    <style>
+        .router-link-active {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to="/login?id=10&name='回到家发货'">登录</router-link>
+        <router-link to="resi">注册</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        let login = Vue.extend({
+            template: `<h2>login</h2>`,
+            created() {
+                console.log(this.$route.query.name);
+            }
+        })
+        let resi = Vue.extend({
+                template: `<h2>resi</h2>`,
+
+            })
+            // 路由对象。匹配规则
+        let router = new VueRouter({
+            routes: [{
+                path: '/login',
+                component: login
+            }, {
+                path: '/resi',
+                component: resi
+            }, {
+                path: '/',
+                redirect: '/login'
+            }]
+        });
+        let app = new Vue({
+            el: '#app',
+            router: router
+        })
+    </script>
+</body>
+
+</html>
