@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <title>Document</title>
+    <style>
+        #box {
+            width: 200px;
+            height: 100px;
+            background: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div id="box" @click="divHandler">
+            <input type="button" value="按钮" @click="btnHandler">
+        </div>
+    </div>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                divHandler() {
+                    console.log('div事件');
+                },
+                btnHandler() {
+                    console.log('btn事件');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

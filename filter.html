@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{msg|msgFormat}}
+        <p> {{date|dateFormat}}</p>
+    </div>
+    <script>
+        Vue.filter('msgFormat', function(msg) {
+            return msg.replace(/单纯/g, '邪恶');
+        });
+        Vue.filter('dateFormat', function(date) {
+            let t = new Date(date);
+            let year = t.getFullYear();
+            let month = (t.getMonth() + 1).toString();
+            let day = t.getDate();
+            let h = t.getHours();
+            let m = t.getMinutes();
+            let s = t.getSeconds();
+            return year + '-' + month + '-' + day + ' ' + h + ':' + m + ':' + s;
+
+        });
+        let app = new Vue({
+            el: '#app',
+            data: {
+                msg: '曾经单纯的我，傻傻的问，谁是世界最单纯的男人',
+                date: new Date(),
+            }
+        });
+    </script>
+</body>
+
+</html>

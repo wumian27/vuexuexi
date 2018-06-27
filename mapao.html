@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="浪起来" @click="reserve">
+        <input type="button" value="停止" @click="stop">
+        <p>
+            {{info}}
+        </p>
+    </div>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                info: '别浪，猥琐发育!',
+                time: null,
+            },
+            methods: {
+                // 业务逻辑：当点击浪起来，将字符第一个的字符，获取
+                // 把最后字放在前面。
+                // 循环
+                reserve() {
+                    if (this.time != null) return;
+                    this.time = setInterval(() => {
+                        let first = this.info.substring(0, 1);
+                        this.info = this.info.substring(1) + first;
+                    }, 500)
+                },
+                stop() {
+                    clearInterval(this.time);
+                    this.time = null; // 这句话很重要，因为清除了定时器，但它不是为null
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>

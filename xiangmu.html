@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">品牌添加</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label>name:
+                    <input type="text" class="form-control" v-model="name"  @keyup.f2="add">
+                </label>
+                <button type="button" class="btn btn-primary" @click="add">添加</button>
+                <label>搜索:
+                    <input type="text" class="form-control" v-color="'blue'" v-focus v-model="keyword" @keydown="seacher(keyword)">
+                </label>
+
+
+
+            </div>
+        </div>
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>ctime</th>
+                    <th>operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item ,i) in seacher(keyword)" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime|dateFormat}}</td>
+                    <td><a class="btn btn-primary" @click="del(i)">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <script>
+        Vue.config.keyCodes.f2 = 113;
+        Vue.directive('focus', {
+            bind: function(el) {
+                el.focus();
+            },
+            inserted: function(el) {
+                el.focus();
+            },
+            updated: function() {},
+
+        });
+        Vue.directive('color', {
+            bind: function(el, bing) {
+                el.style.color = bing.value;
+                // console.log(bing.value);
+                // console.log(bing.expression);
+            }
+        });
+        let app = new Vue({
+            el: '#app',
+            data: {
+                id: null,
+                name: null,
+                keyword: '',
+                list: [{
+                    id: 1,
+                    name: '宝马',
+                    ctime: new Date(),
+
+                }, {
+                    id: 2,
+                    name: '奔驰',
+                    ctime: new Date(),
+
+                }, {
+                    id: 3,
+                    name: '宝拉',
+                    ctime: new Date(),
+
+                }, ]
+            },
+            methods: {
+                add() {
+                    if (this.name == null || this.id == null) return;
+                    let obj = {
+                        id: this.id,
+                        name: this.name,
+                        ctime: new Date()
+                    };
+                    this.list.push(obj);
+                    this.name = this.id = null;
+                },
+                del(id) {
+                    // 数组用splice删除
+                    this.list.splice(id, 1);
+                },
+                seacher(keyword) {
+                    // var newList = [];
+                    // this.list.forEach(item => {
+                    //     if (item.name.indexOf(keyword) != -1) {
+                    //         newList.push(item);
+                    //     }
+                    // });
+                    // return newList;
+                    // 返回条件的数组
+                    let newList = this.list.filter(item => {
+                        if (item.name.includes(keyword)) {
+                            return item;
+                        }
+                    })
+                    return newList;
+
+                }
+            },
+            filters: {
+                dateFormat(time) {
+                    let t = new Date(time);
+                    let years = t.getFullYear();
+                    let month = t.getMonth();
+                    let day = t.getDay();
+                    let h = t.getHours();
+                    let m = t.getMinutes();
+                    let s = t.getSeconds();
+                    return years + '-' + month + '-' + day + ' ' + h + ':' + m + ':' + s;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
