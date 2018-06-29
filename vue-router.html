@@ -47,7 +47,12 @@
         });
         let app = new Vue({
             el: '#app',
-            router: router
+            router: router,
+            watch: {
+                '$route.path': function(newVal, oldVal) {
+                    console.log(newVal);
+                }
+            }
         })
     </script>
 </body>

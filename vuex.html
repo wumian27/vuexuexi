@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/vuex/dist/vuex.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <counter></counter>
+        <amount></amount>
+    </div>
+    <template id="con">
+       <div>
+         <input type="button" value="增加" @click="add()">
+         <input type="button" value="减少">
+         <input type="text" v-model="$store.state.count">
+        </div>
+    </template>
+    <template id="sum">
+<div>
+    <div>当前的数据{{$store.state.count}}</div>
+    <div>{{$store.getters.fullname}}</div>
+</div>
+
+    </template>
+</body>
+<script>
+    var store = new Vuex.Store({
+        state: {
+            count: 0
+        },
+        mutations: {
+            increate(state, c) {
+                state.count += c;
+            }
+        },
+        getters: {
+            fullname: function(state) {
+                return '当前数据为:' + state.count;
+            }
+        }
+    });
+    Vue.component('counter', {
+        template: '#con',
+        data: function() {
+            return {
+
+            }
+        },
+        methods: {
+            add() {
+                this.$store.commit('increate', 3);
+            }
+        }
+    });
+    Vue.component('amount', {
+        template: '#sum',
+
+    });
+    let app = new Vue({
+        el: '#app',
+        store: store,
+
+    })
+</script>
+
+</html>
